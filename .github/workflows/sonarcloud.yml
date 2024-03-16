@@ -1,0 +1,37 @@
+name: SonarCloud Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas #-r requirements.txt  # Adjust based on your project structure
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          entryPoint: 'sonar-scanner'
+          args: |
+            -Dsonar.organization=thedevfactory-ai
+            -Dsonar.projectKey=0db467ba-7188-470d-b533-fd969ef056c7_5778105_65f5bf2792973b834a7556bf_65f5bf2792973b834a7556c1_Jeanp14_test2
+            -Dsonar.sources=.
+            -Dsonar.branch.name=main
+        env:
+          SONAR_TOKEN: a832ec3c175662f182472ee49598e559289aecb6
+    
